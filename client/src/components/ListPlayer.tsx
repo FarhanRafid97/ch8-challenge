@@ -28,7 +28,7 @@ interface ListPlayerProps {
 
 const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [id, setId] = useState<number | undefined>(0);
+  const [idEdit, setIdEdit] = useState<number | undefined>(0);
   const [valSearch, setValsearch] = useState('');
   const [search, setSearch] = useState('');
 
@@ -39,6 +39,7 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
       return val;
     }
   });
+  const playerForEdit = players.filter((player) => player.id === idEdit);
 
   return (
     <>
@@ -51,7 +52,7 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
         onClose={onClose}
         onCloseComplete={() => {
           setSearch('');
-          setId(0);
+          setIdEdit(0);
         }}
         isOpen={isOpen}
       >
@@ -92,7 +93,7 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
                 <Flex justifyContent="center">Data tidka ada</Flex>
               )}
               {inputPLayer.map((player) =>
-                player.id === id ? (
+                player.id === idEdit ? (
                   <Box
                     p={5}
                     shadow="md"
@@ -101,7 +102,12 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
                     borderWidth="1px"
                     borderLeft="2px solid #007AB8"
                   >
-                    <EditPlayer setId={setId} />
+                    <EditPlayer
+                      setId={setIdEdit}
+                      players={players}
+                      playerForEdit={playerForEdit}
+                      setPlayers={setPlayers}
+                    />
                   </Box>
                 ) : (
                   <>
@@ -115,15 +121,16 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
                     >
                       <Box>
                         <Heading fontSize="xl">
-                          Username :{player.username} id {player.id}
+                          Username :{player.username}
                         </Heading>
+
                         <Text mt={2}>Email :{player.email}</Text>
                         <Text mt={2}>Experience :{player.experience}</Text>
                         <Text mt={2}>Level :{player.level}</Text>
                       </Box>
                       <Box>
                         <IconButton
-                          onClick={() => setId(player.id)}
+                          onClick={() => setIdEdit(player.id)}
                           colorScheme="blue"
                           aria-label="Search database"
                           icon={<EditIcon />}
