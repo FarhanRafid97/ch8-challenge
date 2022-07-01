@@ -1,24 +1,25 @@
-import { Box, Button, Avatar, Flex } from '@chakra-ui/react';
-import { reducerCount } from './Count';
-import { useReducer, useContext } from 'react';
+import { Avatar, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
 interface NavbarProps {}
 
-const Navbar: React.FC<NavbarProps> = ({}) => {
+const Navbar: React.FC<NavbarProps> = () => {
+  const bgColor = useColorModeValue('gray.200', 'gray.700');
   return (
     <Flex
-      bg="gray.300"
+      bg={bgColor}
       padding="15px 45px"
       justifyContent="space-between"
       alignItems="center"
     >
-      <Box>Logo</Box>
-      <Box>
+      <Text>Logo</Text>
+      <Flex alignItems="center">
         <Avatar
           name="Dan Abrahmov"
           size="sm"
           src="https://bit.ly/dan-abramov"
         />
-      </Box>
+        <ColorModeSwitcher />
+      </Flex>
     </Flex>
   );
 };

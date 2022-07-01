@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react';
+import { Button, Flex, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import InputField from './InputField';
 import Layout from './Layout';
@@ -10,11 +10,12 @@ export interface InputProps {
     email?: string;
     password: string;
     experience?: number;
+    level?: number;
   };
 }
 interface PagesProps {}
 
-const Pages: React.FC<PagesProps> = ({}) => {
+const Pages: React.FC<PagesProps> = () => {
   const toast = useToast();
   const [register, setRegister] = useState(false);
   const [players, setPlayers] = useState<InputProps['player'][]>([
@@ -23,6 +24,7 @@ const Pages: React.FC<PagesProps> = ({}) => {
       email: 'farhan@gmail.com',
       password: '1234',
       experience: 100,
+      level: 1,
     },
   ]);
   const [player, setPlayer] = useState<InputProps['player']>({
@@ -30,6 +32,7 @@ const Pages: React.FC<PagesProps> = ({}) => {
     email: '',
     password: '',
     experience: 0,
+    level: 1,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +85,13 @@ const Pages: React.FC<PagesProps> = ({}) => {
           variant="solid"
           onClick={() => {
             setPlayers([...players, player]);
-            setPlayer({ username: '', email: '', password: '', experience: 0 });
+            setPlayer({
+              username: '',
+              email: '',
+              password: '',
+              experience: 0,
+              level: 1,
+            });
             toast({
               title: register ? 'Account created.' : 'loggin succes',
               description: register
