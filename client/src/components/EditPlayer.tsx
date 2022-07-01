@@ -27,7 +27,7 @@ const EditPlayer: React.FC<EditPlayerProps> = ({
 
   useEffect(() => {
     setPlayer(playerForEdit[0]);
-  }, []);
+  }, [playerForEdit]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayer({ ...player, [e.target.name]: e.target.value });

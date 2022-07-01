@@ -38,7 +38,9 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
     } else if (val.username.toLowerCase().includes(search.toLowerCase())) {
       return val;
     }
+    return null;
   });
+
   const playerForEdit = players.filter((player) => player.id === idEdit);
 
   return (
