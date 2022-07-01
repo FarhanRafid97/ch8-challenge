@@ -6,6 +6,7 @@ import ListPlayer from './ListPlayer';
 
 export interface InputProps {
   player: {
+    id?: number;
     username: string;
     email?: string;
     password: string;
@@ -13,13 +14,14 @@ export interface InputProps {
     level?: number;
   };
 }
-interface PagesProps {}
 
-const Pages: React.FC<PagesProps> = () => {
+interface RegisterOrLoginProps {}
+const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
   const toast = useToast();
   const [register, setRegister] = useState(false);
   const [players, setPlayers] = useState<InputProps['player'][]>([
     {
+      id: 1,
       username: 'farhan',
       email: 'farhan@gmail.com',
       password: '1234',
@@ -28,6 +30,7 @@ const Pages: React.FC<PagesProps> = () => {
     },
   ]);
   const [player, setPlayer] = useState<InputProps['player']>({
+    id: players.length + 1,
     username: '',
     email: '',
     password: '',
@@ -39,10 +42,10 @@ const Pages: React.FC<PagesProps> = () => {
     setPlayer({ ...player, [e.target.name]: e.target.value });
   };
   return (
-    <Layout variant="small">
+    <Layout>
       <Flex direction="column" w="100%" justifyContent="center" mb={12}>
         <Text>{register ? 'Register' : 'Login'} Player</Text>
-        <ListPlayer players={players} />
+        <ListPlayer players={players} setPlayers={setPlayers} />
       </Flex>
       <Flex direction="column" rowGap="20px">
         <InputField
@@ -86,6 +89,7 @@ const Pages: React.FC<PagesProps> = () => {
           onClick={() => {
             setPlayers([...players, player]);
             setPlayer({
+              id: 0,
               username: '',
               email: '',
               password: '',
@@ -118,4 +122,4 @@ const Pages: React.FC<PagesProps> = () => {
   );
 };
 
-export default Pages;
+export default RegisterOrLogin;

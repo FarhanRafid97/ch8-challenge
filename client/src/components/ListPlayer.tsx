@@ -9,6 +9,7 @@ import {
   DrawerOverlay,
   Flex,
   Heading,
+  IconButton,
   Input,
   Select,
   Stack,
@@ -16,14 +17,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { InputProps } from './Pages';
+import { EditIcon } from '@chakra-ui/icons';
+import { InputProps } from './RegisterOrLogin';
+import EditPlayer from './EditPlayer';
 
 interface ListPlayerProps {
   players: InputProps['player'][];
+  setPlayers: React.Dispatch<React.SetStateAction<InputProps['player'][]>>;
 }
 
-const ListPlayer: React.FC<ListPlayerProps> = ({ players }) => {
+const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [id, setId] = useState<number | undefined>(0);
   const [valSearch, setValsearch] = useState('');
   const [search, setSearch] = useState('');
 
@@ -44,7 +49,10 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players }) => {
         placement="right"
         size="sm"
         onClose={onClose}
-        onCloseComplete={() => setSearch('')}
+        onCloseComplete={() => {
+          setSearch('');
+          setId(0);
+        }}
         isOpen={isOpen}
       >
         <DrawerOverlay />
@@ -83,19 +91,48 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players }) => {
               {inputPLayer.length === 0 && (
                 <Flex justifyContent="center">Data tidka ada</Flex>
               )}
-              {inputPLayer.map((player) => (
-                <Box
-                  p={5}
-                  shadow="md"
-                  borderWidth="1px"
-                  borderLeft="2px solid #007AB8"
-                >
-                  <Heading fontSize="xl">Username :{player.username}</Heading>
-                  <Text mt={2}>Email :{player.email}</Text>
-                  <Text mt={2}>Experience :{player.experience}</Text>
-                  <Text mt={2}>Level :{player.level}</Text>
-                </Box>
-              ))}
+              {inputPLayer.map((player) =>
+                player.id === id ? (
+                  <Box
+                    p={5}
+                    shadow="md"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    borderWidth="1px"
+                    borderLeft="2px solid #007AB8"
+                  >
+                    <EditPlayer setId={setId} />
+                  </Box>
+                ) : (
+                  <>
+                    <Flex
+                      p={5}
+                      shadow="md"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      borderWidth="1px"
+                      borderLeft="2px solid #007AB8"
+                    >
+                      <Box>
+                        <Heading fontSize="xl">
+                          Username :{player.username} id {player.id}
+                        </Heading>
+                        <Text mt={2}>Email :{player.email}</Text>
+                        <Text mt={2}>Experience :{player.experience}</Text>
+                        <Text mt={2}>Level :{player.level}</Text>
+                      </Box>
+                      <Box>
+                        <IconButton
+                          onClick={() => setId(player.id)}
+                          colorScheme="blue"
+                          aria-label="Search database"
+                          icon={<EditIcon />}
+                        />
+                      </Box>
+                    </Flex>
+                  </>
+                )
+              )}
             </Stack>
           </DrawerBody>
         </DrawerContent>

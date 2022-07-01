@@ -11,7 +11,6 @@ const Wrapper: React.FC<WrapperProps> = ({ children, variant }) => {
     <Box
       maxW={variant === 'ragular' ? '800px' : '600px'}
       w="100%"
-      mt="80px"
       mx="auto"
       p="15px"
       paddingTop="35px"
