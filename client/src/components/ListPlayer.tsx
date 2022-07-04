@@ -1,3 +1,4 @@
+import { EditIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -17,9 +18,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { EditIcon } from '@chakra-ui/icons';
-import { InputProps } from './RegisterOrLogin';
 import EditPlayer from './EditPlayer';
+import { InputProps } from './RegisterOrLogin';
 
 interface ListPlayerProps {
   players: InputProps['player'][];
@@ -75,7 +75,7 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
     }
     return null;
   });
-  console.log(searchBy === '');
+  console.log(idEdit);
 
   const playerForEdit = players.filter((player) => player.id === idEdit);
 
@@ -107,7 +107,9 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
               />
               <Select
                 placeholder="Select option"
-                onChange={(e) => setSearchBy(e.target.value)}
+                onChange={(e) => {
+                  setSearchBy(e.target.value);
+                }}
               >
                 <option value="username">Username</option>
                 <option value="email">Email</option>
@@ -143,10 +145,10 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
               {inputPLayer.length === 0 && (
                 <Flex justifyContent="center">{notAvailableSearch()}</Flex>
               )}
-              {inputPLayer.map((player) =>
+              {inputPLayer.map((player, index) =>
                 player.id === idEdit ? (
                   <Box
-                    key={player.id}
+                    key={index}
                     p={5}
                     shadow="md"
                     alignItems="center"
@@ -162,34 +164,33 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
                     />
                   </Box>
                 ) : (
-                  <>
-                    <Flex
-                      p={5}
-                      shadow="md"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      borderWidth="1px"
-                      borderLeft="2px solid #007AB8"
-                    >
-                      <Box>
-                        <Heading fontSize="xl">
-                          Username :{player.username}
-                        </Heading>
+                  <Flex
+                    key={index}
+                    p={5}
+                    shadow="md"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    borderWidth="1px"
+                    borderLeft="2px solid #007AB8"
+                  >
+                    <Box>
+                      <Heading fontSize="xl">
+                        Username :{player.username}
+                      </Heading>
 
-                        <Text mt={2}>Email :{player.email}</Text>
-                        <Text mt={2}>Experience :{player.experience}</Text>
-                        <Text mt={2}>Level :{player.level}</Text>
-                      </Box>
-                      <Box>
-                        <IconButton
-                          onClick={() => setIdEdit(player.id)}
-                          colorScheme="blue"
-                          aria-label="Search database"
-                          icon={<EditIcon />}
-                        />
-                      </Box>
-                    </Flex>
-                  </>
+                      <Text mt={2}>Email :{player.email}</Text>
+                      <Text mt={2}>Experience :{player.experience}</Text>
+                      <Text mt={2}>Level :{player.level}</Text>
+                    </Box>
+                    <Box>
+                      <IconButton
+                        onClick={() => setIdEdit(player.id)}
+                        colorScheme="blue"
+                        aria-label="Search database"
+                        icon={<EditIcon />}
+                      />
+                    </Box>
+                  </Flex>
                 )
               )}
             </Stack>

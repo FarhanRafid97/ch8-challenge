@@ -23,7 +23,11 @@ const EditPlayer: React.FC<EditPlayerProps> = ({
     experience: 0,
     level: 1,
   });
-  const updatedData = players.map((p) => (p.id === player.id ? player : p));
+  const updatedData = players.map((p) =>
+    p.id === player.id
+      ? { ...player, level: Math.floor(player.experience / 1000) }
+      : p
+  );
 
   useEffect(() => {
     setPlayer(playerForEdit[0]);

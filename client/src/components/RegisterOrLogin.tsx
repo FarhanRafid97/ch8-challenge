@@ -29,6 +29,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
       level: 1,
     },
   ]);
+  console.log(players.length);
   const [player, setPlayer] = useState<InputProps['player']>({
     id: players.length + 1,
     username: '',
@@ -41,6 +42,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayer({ ...player, [e.target.name]: e.target.value });
   };
+  console.log(players);
   return (
     <Layout>
       <Flex direction="column" w="100%" justifyContent="center" mb={12}>
@@ -87,9 +89,15 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
           colorScheme="telegram"
           variant="solid"
           onClick={() => {
-            setPlayers([...players, { ...player, level: 1 }]);
+            setPlayers([
+              ...players,
+              {
+                ...player,
+                level: Math.floor(player.experience / 1000),
+              },
+            ]);
             setPlayer({
-              id: 0,
+              id: players.length + 2,
               username: '',
               email: '',
               password: '',
