@@ -3,22 +3,26 @@ import { ColorModeSwitcher } from '../ColorModeSwitcher';
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.700');
+  const textColor = useColorModeValue('white', 'black');
+  const bgColor = useColorModeValue('#0088CC', '#A3D4EC');
   return (
     <Flex
-      bg={bgColor}
+      backgroundColor={bgColor}
       padding="15px 45px"
       justifyContent="space-between"
       alignItems="center"
+      color={textColor}
     >
-      <Text>Logo</Text>
-      <Flex alignItems="center">
-        <Avatar
-          name="Dan Abrahmov"
-          size="sm"
-          src="https://bit.ly/dan-abramov"
-        />
-        <ColorModeSwitcher />
+      <Flex w="600px" m="auto" justifyContent="space-between">
+        <Text fontFamily="serif">F</Text>
+        <Flex alignItems="center">
+          <Avatar
+            name="Dan Abrahmov"
+            size="sm"
+            src="https://bit.ly/dan-abramov"
+          />
+          <ColorModeSwitcher />
+        </Flex>
       </Flex>
     </Flex>
   );

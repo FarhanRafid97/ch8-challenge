@@ -18,7 +18,7 @@ export interface InputProps {
 interface RegisterOrLoginProps {}
 const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
   const toast = useToast();
-  const [register, setRegister] = useState(false);
+  const [register, setRegister] = useState(true);
   const [players, setPlayers] = useState<InputProps['player'][]>([
     {
       id: 1,
@@ -26,7 +26,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
       email: 'farhan@gmail.com',
       password: '1234',
       experience: 100,
-      level: 1,
+      level: this,
     },
   ]);
   const [player, setPlayer] = useState<InputProps['player']>({
