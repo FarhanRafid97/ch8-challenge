@@ -31,15 +31,51 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
   const [idEdit, setIdEdit] = useState<number | undefined>(0);
   const [valSearch, setValsearch] = useState('');
   const [search, setSearch] = useState('');
+  const [searchBy, setSearchBy] = useState<string | number>('');
+
+  const notAvailableSearch = () => {
+    if (searchBy === 'username') {
+      return `Username  "${search}" Not Available`;
+    }
+    if (searchBy === 'email') {
+      return `Email  "${search}" Not Available`;
+    }
+    if (searchBy === 'experience') {
+      return `We Dont Have User With Experience  "${search}"`;
+    }
+    if (searchBy === 'level') {
+      return `We Dont Have User With level  "${search}"`;
+    }
+    return 'select your option';
+  };
 
   const inputPLayer = players.filter((val) => {
-    if (search === '') {
+    if (
+      searchBy === 'username' &&
+      val.username.toLowerCase().includes(search.toLowerCase())
+    ) {
       return val;
-    } else if (val.username.toLowerCase().includes(search.toLowerCase())) {
+    }
+    if (
+      searchBy === 'email' &&
+      val.email.toLowerCase().includes(search.toLowerCase())
+    ) {
+      return val;
+    }
+
+    if (searchBy === 'experience' && val.experience.toString() === search) {
+      return val;
+    }
+    if (searchBy === 'level' && val.level.toString() === search) {
+      return val;
+    }
+
+    if (search === '') {
       return val;
     }
     return null;
   });
+  console.log(searchBy === '');
 
   const playerForEdit = players.filter((player) => player.id === idEdit);
 
@@ -63,12 +99,16 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
           <DrawerHeader borderBottomWidth="1px">
             <Stack spacing={3} direction="column">
               <Input
+                value={valSearch}
                 placeholder="Search Input"
                 onChange={(e) => setValsearch(e.target.value)}
                 size="md"
                 width="90%"
               />
-              <Select placeholder="Select option">
+              <Select
+                placeholder="Select option"
+                onChange={(e) => setSearchBy(e.target.value)}
+              >
                 <option value="username">Username</option>
                 <option value="email">Email</option>
                 <option value="experience">Experience</option>
@@ -79,6 +119,15 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
                 colorScheme="telegram"
               >
                 Search
+              </Button>
+              <Button
+                onClick={() => {
+                  setValsearch('');
+                  setSearch('');
+                }}
+                colorScheme="red"
+              >
+                reset
               </Button>
             </Stack>
 
@@ -92,11 +141,12 @@ const ListPlayer: React.FC<ListPlayerProps> = ({ players, setPlayers }) => {
           <DrawerBody>
             <Stack spacing={6} direction="column">
               {inputPLayer.length === 0 && (
-                <Flex justifyContent="center">Data tidka ada</Flex>
+                <Flex justifyContent="center">{notAvailableSearch()}</Flex>
               )}
               {inputPLayer.map((player) =>
                 player.id === idEdit ? (
                   <Box
+                    key={player.id}
                     p={5}
                     shadow="md"
                     alignItems="center"

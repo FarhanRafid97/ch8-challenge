@@ -8,10 +8,10 @@ export interface InputProps {
   player: {
     id?: number;
     username: string;
-    email?: string;
+    email: string;
     password: string;
-    experience?: number;
-    level?: number;
+    experience: number;
+    level: number;
   };
 }
 
@@ -26,7 +26,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
       email: 'farhan@gmail.com',
       password: '1234',
       experience: 100,
-      level: this,
+      level: 1,
     },
   ]);
   const [player, setPlayer] = useState<InputProps['player']>({
@@ -35,7 +35,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
     email: '',
     password: '',
     experience: 0,
-    level: 1,
+    level: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +87,7 @@ const RegisterOrLogin: React.FC<RegisterOrLoginProps> = () => {
           colorScheme="telegram"
           variant="solid"
           onClick={() => {
-            setPlayers([...players, player]);
+            setPlayers([...players, { ...player, level: 1 }]);
             setPlayer({
               id: 0,
               username: '',
